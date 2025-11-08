@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import styled, { keyframes } from "styled-components";
 import { Heart, CheckCircle, ArrowLeft } from "lucide-react";
 import confetti from "canvas-confetti";
 import { useSearchParams } from "next/navigation";
 
-export default function SuccessPage() {
+function SuccessContent() {
   const searchParams = useSearchParams();
   const amount = searchParams.get("amount");
   const [celebrated, setCelebrated] = useState(false);
@@ -113,6 +113,32 @@ export default function SuccessPage() {
         </SocialSection>
       </SuccessContainer>
     </Container>
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={
+      <Container>
+        <BackgroundOrbs>
+          <Orb color="#FCC920" top="10%" left="5%" size="500px" delay={0} />
+          <Orb color="#4ECDC4" top="60%" left="80%" size="450px" delay={1} />
+          <Orb color="#FFD93D" top="75%" left="10%" size="400px" delay={2} />
+          <Orb color="#9b59b6" top="40%" left="90%" size="350px" delay={1.5} />
+        </BackgroundOrbs>
+        <SuccessContainer>
+          <LogoContainer>
+            <Logo src="https://evvntly.com/images/white.png" alt="Evvntly" />
+          </LogoContainer>
+          <IconContainer>
+            <CheckCircle size={80} color="#10B981" />
+          </IconContainer>
+          <Title>Loading...</Title>
+        </SuccessContainer>
+      </Container>
+    }>
+      <SuccessContent />
+    </Suspense>
   );
 }
 
